@@ -1,0 +1,35 @@
+version: "3.8"
+
+services:
+  # Base de datos MySQL
+  mysql_240836:
+    image: mysql:8.0
+    container_name: mysql_240836
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: Password240836!
+      MYSQL_DATABASE: db_240836
+      MYSQL_USER: user_240836
+      MYSQL_PASSWORD: Password240836!
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data_240836:/var/lib/mysql
+      - ./respaldo.sql:/docker-entrypoint-initdb.d/respaldo.sql
+
+  # Interfaz web phpMyAdmin
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin_240836
+    restart: always
+    environment:
+      PMA_HOST: mysql_240836
+      PMA_PORT: 3306
+    ports:
+      - "40836:80"
+    depends_on:
+      - mysql_240836
+
+volumes:
+  mysql_data_240836:
+    driver: local
