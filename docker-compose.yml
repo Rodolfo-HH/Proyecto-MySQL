@@ -7,12 +7,12 @@ services:
     container_name: mysql_240836
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: Password240836!
+      MYSQL_ROOT_PASSWORD: RootPassword240836!
       MYSQL_DATABASE: db_240836
       MYSQL_USER: user_240836
       MYSQL_PASSWORD: Password240836!
     ports:
-      - "3306:3306"
+      - "40837:3306"      # ← 40837 (tu puerto MySQL) : 3306 (interno del contenedor)
     volumes:
       - mysql_data_240836:/var/lib/mysql
       - ./respaldo.sql:/docker-entrypoint-initdb.d/respaldo.sql
@@ -24,9 +24,9 @@ services:
     restart: always
     environment:
       PMA_HOST: mysql_240836
-      PMA_PORT: 3306
+      PMA_PORT: 3306       # ← este 3306 es INTERNO (contenedor a contenedor), no lo cambies
     ports:
-      - "40836:80"
+      - "40836:80"          # ← 40836 (tu puerto phpMyAdmin)
     depends_on:
       - mysql_240836
 
