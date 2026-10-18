@@ -17,7 +17,7 @@ services:
     container_name: pgadmin_240836
     restart: always
     environment:
-      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_EMAIL: rodolfo.hernandez@proyectos-integradores-7b-itiid.tech
       PGADMIN_DEFAULT_PASSWORD: RootPassword240836!
     ports:
       - "40836:80"
