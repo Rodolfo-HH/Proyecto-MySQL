@@ -1,35 +1,29 @@
-version: "3.8"
-
 services:
-  # Base de datos MySQL
-  mysql_240836:
-    image: mysql:8.0
-    container_name: mysql_240836
+  postgres_240836:
+    image: postgres:15-alpine
+    container_name: postgres_240836
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: RootPassword240836!
-      MYSQL_DATABASE: db_240836
-      MYSQL_USER: user_240836
-      MYSQL_PASSWORD: Password240836!
+      POSTGRES_USER: user_240836
+      POSTGRES_PASSWORD: Password240836!
+      POSTGRES_DB: db_240836
     ports:
-      - "40837:3306"      # ← 40837 (tu puerto MySQL) : 3306 (interno del contenedor)
+      - "40837:5432"
     volumes:
-      - mysql_data_240836:/var/lib/mysql
-      - ./respaldo.sql:/docker-entrypoint-initdb.d/respaldo.sql
+      - pg_data_240836:/var/lib/postgresql/data
 
-  # Interfaz web phpMyAdmin
-  phpmyadmin:
-    image: phpmyadmin/phpmyadmin
-    container_name: phpmyadmin_240836
+  pgadmin_240836:
+    image: dpage/pgadmin4
+    container_name: pgadmin_240836
     restart: always
     environment:
-      PMA_HOST: mysql_240836
-      PMA_PORT: 3306       # ← este 3306 es INTERNO (contenedor a contenedor), no lo cambies
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: RootPassword240836!
     ports:
-      - "40836:80"          # ← 40836 (tu puerto phpMyAdmin)
+      - "40836:80"
     depends_on:
-      - mysql_240836
+      - postgres_240836
 
 volumes:
-  mysql_data_240836:
+  pg_data_240836:
     driver: local
